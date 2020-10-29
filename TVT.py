@@ -78,6 +78,6 @@ elif file_name == "After.txt":
 	f = open("changes.html", "w")
 	f.write(diff)
 	f.close
-	Print("Open changes.html to see difference")
+	print("Open changes.html to see difference")
 else:
 	print('Before or After not detected')

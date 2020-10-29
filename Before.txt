@@ -1,0 +1,18 @@
+hostname Doz
+
+Vlan1                  192.168.1.3     YES NVRAM  up                    up      
+FastEthernet0/1        unassigned      YES unset  up                    up      
+FastEthernet0/2        unassigned      YES unset  up                    up      
+FastEthernet0/3        unassigned      YES unset  up                    up      
+Loopback10             unassigned      YES unset  up                    up      
+Loopback11             unassigned      YES unset  up                    up      
+Loopback110            unassigned      YES unset  up                    up      
+Loopback200            unassigned      YES unset  up                    up      
+Loopback300            unassigned      YES unset  up                    up      
+
+System image file is "flash:/c2960c405-universalk9-mz.122-55.EX3/c2960c405-universalk9-mz.122-55.EX3.bin"
+
+Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
+
+
+

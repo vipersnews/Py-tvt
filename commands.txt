@@ -1,0 +1,5 @@
+show run | inc hostname
+sh ip int brief | inc up
+show ver | inc System image
+show cdp neigh | beg Device ID
+

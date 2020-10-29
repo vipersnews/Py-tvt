@@ -2,7 +2,6 @@ from getpass import getpass
 import netmiko
 import re
 import difflib
-import sys
 
 def make_connection (ip, username, password):
 		return netmiko.ConnectHandler(device_type='cisco_ios', ip=ip, username=username, password=password)
@@ -42,15 +41,15 @@ ips = []
 #Pull the IPs.txt is a list of the IPs we want to connect to
 #This function pulls those IPs out of the txt file and puts them into a list
 get_ips("IPs.txt")
-print("TVT Commands, if incorrect, logout now")
+print("TVT Commands, if incorrect, cancel now")
 for commands in commands_list:
 	print(commands)
 
 #Prompt user for account info
 username = input("Username: ")
 password = getpass()
-#Where we are storing our output
-file_name = input("Is this a Before.txt of After.txt TVT: ")
+#This is required for our Diff Loop, pre-tvt store in Before, Post in After
+file_name = input("For Pre-TVT type Before.txt - For Post-TVT type After.txt : ")
 #Clearing all the old info out of the results.csv file
 to_doc_w(file_name, "")
 #Commands To Use
@@ -67,6 +66,7 @@ for ip in ips:
         #Next we will append the output to the results file
 		to_doc_a(file_name, results)
 
+#Loop to determine actions for Pre-TVT or Post-TVT
 if file_name == "Before.txt":
 	print('Completed')
 elif file_name == "After.txt":
@@ -74,12 +74,10 @@ elif file_name == "After.txt":
 	tofile = "After.txt"
 	fromlines = open(fromfile, 'U').readlines()
 	tolines = open(tofile, 'U').readlines()
-#	diff = difflib.ndiff(open(file1).readlines(),open(file2).readlines())
 	diff = difflib.HtmlDiff().make_file(fromlines,tolines,fromfile,tofile)
 	f = open("changes.html", "w")
 	f.write(diff)
 	f.close
-#	print(diff)
-#	print(''.join(diff),)
+	Print("Open changes.html to see difference")
 else:
 	print('Before or After not detected')

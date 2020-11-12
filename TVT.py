@@ -18,7 +18,7 @@ def get_ips (file_name):
 commands_list = []
 
 # Get the commands from commands.txt and append to our list
-with open('commands.txt', 'r') as f:
+with open('input/commands.txt', 'r') as f:
 	for line in f:
 		commands_list.append(line)
 
@@ -40,7 +40,7 @@ ips = []
 
 #Pull the IPs.txt is a list of the IPs we want to connect to
 #This function pulls those IPs out of the txt file and puts them into a list
-get_ips("IPs.txt")
+get_ips("input/IPs.txt")
 print("TVT Commands, if incorrect, cancel now")
 for commands in commands_list:
 	print(commands)
@@ -49,7 +49,8 @@ for commands in commands_list:
 username = input("Username: ")
 password = getpass()
 #This is required for our Diff Loop, pre-tvt store in Before, Post in After
-file_name = input("For Pre-TVT type Before.txt - For Post-TVT type After.txt : ")
+file_name_input = input("For Pre-TVT type Before.txt - For Post-TVT type After.txt : ")
+file_name = ("output/" + file_name_input)
 #Clearing all the old info out of the current txt files in directory
 to_doc_w(file_name, "")
 
@@ -71,17 +72,17 @@ for ip in ips:
 		print(ip + " Failed to connect")
 
 #Loop to determine actions for Pre-TVT or Post-TVT
-if file_name == "Before.txt":
+if file_name == "output/Before.txt":
 	print('Completed')
-elif file_name == "After.txt":
-	fromfile = "Before.txt"
-	tofile = "After.txt"
+elif file_name == "output/After.txt":
+	fromfile = "output/Before.txt"
+	tofile = "output/After.txt"
 	fromlines = open(fromfile, 'U').readlines()
 	tolines = open(tofile, 'U').readlines()
 	diff = difflib.HtmlDiff().make_file(fromlines,tolines,fromfile,tofile)
-	f = open("changes.html", "w")
+	f = open("output/changes.html", "w")
 	f.write(diff)
 	f.close
-	print("Open changes.html to see difference")
+	print("Open output\changes.html to see difference")
 else:
 	print('Before or After not detected')

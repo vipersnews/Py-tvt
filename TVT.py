@@ -61,6 +61,7 @@ for ip in ips:
 	try:
 		net_connect = make_connection(ip, username, password)
 		#Run all our commands and append to our file_name
+		print("Completing " + ip )
 		for commands in commands_list:
 			output = net_connect.send_command_expect(commands)
 			results = output + '\n'

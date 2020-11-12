@@ -50,9 +50,9 @@ username = input("Username: ")
 password = getpass()
 #This is required for our Diff Loop, pre-tvt store in Before, Post in After
 file_name = input("For Pre-TVT type Before.txt - For Post-TVT type After.txt : ")
-#Clearing all the old info out of the results.csv file
+#Clearing all the old info out of the current txt files in directory
 to_doc_w(file_name, "")
-#Commands To Use
+
 
 
 #Make a for loop to hit all the devices, for this we will be looking at the IOS it's running

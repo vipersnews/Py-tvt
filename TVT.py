@@ -58,13 +58,16 @@ to_doc_w(file_name, "")
 #Make a for loop to hit all the devices, for this we will be looking at the IOS it's running
 for ip in ips:
 	#Connect to a device
-	net_connect = make_connection(ip, username, password)
-	#Run all our commands and append to our file_name
-	for commands in commands_list:
-		output = net_connect.send_command_expect(commands)
-		results = output + '\n'
-        #Next we will append the output to the results file
-		to_doc_a(file_name, results)
+	try:
+		net_connect = make_connection(ip, username, password)
+		#Run all our commands and append to our file_name
+		for commands in commands_list:
+			output = net_connect.send_command_expect(commands)
+			results = output + '\n'
+        	#Next we will append the output to the results file
+			to_doc_a(file_name, results)
+	except:
+		print(ip + " Failed to connect")
 
 #Loop to determine actions for Pre-TVT or Post-TVT
 if file_name == "Before.txt":

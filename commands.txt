@@ -1,5 +1,5 @@
-show run | inc hostname
-sh ip int brief | inc up
-show ver | inc System image
-show cdp neigh | beg Device ID
-
+ping 192.168.1.1 source vlan 1
+sh ip arp
+show cdp neigh
+show run
+show ip int brief

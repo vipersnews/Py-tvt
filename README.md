@@ -21,21 +21,34 @@ pip install re
 ## Usage
 
 ```python
-Edit the IPs.txt file to have a host on each line with just their IP
-Edit the commands.txt file with your CLI command on each line
+USER CONFIGURATIONS:
+Edit the IPs.txt file to have a host on each line with just their IP Address
+Edit the commands.txt file with your CLI command on each line, this will be shared amonst all hosts.
 
 To execute: python3 TVT.py
 
 You will be shown the list of commands this script is going to execute, if there is an issue, exit the script.
 
-You will be prompted for your username and password
+RUNNING SCRIPT:
+To execute a Before check to establish a working baseline: python3 TVT.py
+At the prompts:-
+Enter Username
+Enter Password
+Enter Before.txt
 
-For Pre-TVT tests, enter Before.txt at the prompt, as this is where it will store the Pre-TVT test Result
-For Post-TVT test, enter  After.txt at the promtp, as this is where it will store the Post-TVT test Result
+To execute an After check post your router changes: python3 TVT.py 
+At the prompts:-
+Enter Username
+Enter Password
+Enter After.txt
 
-The script will run through each host and run each of the commands on each host, saving this to the above text file.
+The script will run through the hosts and the shared commands list.
 
-If you are doing Post-TVT using After.txt, it will create changes.html which will include a Diff, showing before and after.
+If there is an error connecting to an individual host, it will print and error and continue on.
+
+Upon completion of the Before script option, it will write Completed.
+
+Upon completion of the After script option, it will run a diff and generate you a HTML file to compare the Before & After of each host
 
 ```
 

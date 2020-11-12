@@ -1,37 +1,379 @@
-hostname Doz
 
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.1, timeout is 2 seconds:
+Packet sent with a source address of 192.168.1.3 
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/6/9 ms
+
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+Internet  192.168.1.69           29   000c.2988.e3d8  ARPA   Vlan1
+Internet  192.168.1.1             0   b06e.bfe3.e058  ARPA   Vlan1
+Internet  192.168.1.3             -   a418.7570.fdc0  ARPA   Vlan1
+
+Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater, P - Phone, 
+                  D - Remote, C - CVTA, M - Two-port Mac Relay 
+
+Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
+
+Building configuration...
+
+Current configuration : 3623 bytes
+!
+! Last configuration change at 10:54:35 Brisban Thu Nov 12 2020 by admin
+! NVRAM config last updated at 10:54:35 Brisban Thu Nov 12 2020 by admin
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Doz
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$G8Vt$RCT1o3veKtubTjaeUQ1cW1
+enable password doz
+!
+username doz privilege 15 password 0 doz
+username admin password 0 Doz123
+!
+!
+no aaa new-model
+clock timezone Brisbane 10
+system mtu routing 1500
+!
+!
+ip domain-name dozacorp
+!
+!
+crypto pki trustpoint TP-self-signed-1970339200
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1970339200
+ revocation-check none
+ rsakeypair TP-self-signed-1970339200
+!
+!
+crypto pki certificate chain TP-self-signed-1970339200
+ certificate self-signed 01
+  30820244 308201AD A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31393730 33333932 3030301E 170D3933 30333031 30303032 
+  31315A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 39373033 
+  33393230 3030819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100CA3E 430A1DA3 D3929904 9C8A0FB5 D32BFBDE 51F4C124 9E4A37EB 0A4FA144 
+  B0D8C6CA 36D7D2E9 50CBC3CF 663F5EFE 537974C7 29A27957 A69EFCC2 01214A25 
+  7A527B81 9849F4AC 02C60FE5 AD2A78D7 4DB1E3DF DC836405 7687B622 82051D28 
+  5B60ECB1 9DABD335 048EAF2F 93DBA1B0 D4120DB0 B43301D5 0F467CDF DD33FD10 
+  CACB0203 010001A3 6C306A30 0F060355 1D130101 FF040530 030101FF 30170603 
+  551D1104 10300E82 0C446F7A 2E646F7A 61636F72 70301F06 03551D23 04183016 
+  8014D4A3 DAE28777 79225F4C 15A3FC70 1EE873EF D7BA301D 0603551D 0E041604 
+  14D4A3DA E2877779 225F4C15 A3FC701E E873EFD7 BA300D06 092A8648 86F70D01 
+  01040500 03818100 1098B975 1AC62F29 ABD3BA8D E9ACBB44 068ABF10 31C174A6 
+  9E7DDB66 59FE802B 13D35C95 23055641 AD3F937D D0507464 829A9162 6194AB28 
+  05C0C3D3 F078A47A E73B42DC 77804BB8 E4277C2F 6324E2BF C6BEA979 942785A7 
+  8C18A561 3704E861 72187EA4 61F54C9A 70927067 1803D80E 1532C473 716BF9EF 
+  C236E4FA 33694181
+  quit
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+ip ssh version 2
+ip scp server enable
+!
+policy-map slowdoz
+ class class-default
+  police 25000000 8000 exceed-action drop
+!
+!
+!
+interface Loopback10
+ description TEST
+ no ip address
+!
+interface Loopback11
+ description test
+ no ip address
+!
+interface Loopback110
+ no ip address
+!
+interface Loopback200
+ no ip address
+!
+interface Loopback300
+ no ip address
+!
+interface Loopback1000
+ description testing auto
+ no ip address
+!
+interface FastEthernet0/1
+ spanning-tree portfast
+ service-policy input slowdoz
+!
+interface FastEthernet0/2
+ spanning-tree portfast
+!
+interface FastEthernet0/3
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+ spanning-tree portfast
+!
+interface FastEthernet0/5
+ spanning-tree portfast
+!
+interface FastEthernet0/6
+ spanning-tree portfast
+!
+interface FastEthernet0/7
+ spanning-tree portfast
+!
+interface FastEthernet0/8
+ spanning-tree portfast
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ ip address 192.168.1.3 255.255.255.0
+!
+ip http server
+ip http secure-server
+!
+ip access-list standard std_acl
+ deny   192.168.1.3
+ deny   192.168.1.0 0.0.0.255
+ip sla enable reaction-alerts
+access-list 10 permit any
+!
+line con 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+end
+
+
+Interface              IP-Address      OK? Method Status                Protocol
 Vlan1                  192.168.1.3     YES NVRAM  up                    up      
 FastEthernet0/1        unassigned      YES unset  up                    up      
 FastEthernet0/2        unassigned      YES unset  up                    up      
 FastEthernet0/3        unassigned      YES unset  up                    up      
+FastEthernet0/4        unassigned      YES unset  down                  down    
+FastEthernet0/5        unassigned      YES unset  down                  down    
+FastEthernet0/6        unassigned      YES unset  down                  down    
+FastEthernet0/7        unassigned      YES unset  down                  down    
+FastEthernet0/8        unassigned      YES unset  down                  down    
+GigabitEthernet0/1     unassigned      YES unset  down                  down    
+GigabitEthernet0/2     unassigned      YES unset  down                  down    
 Loopback10             unassigned      YES unset  up                    up      
 Loopback11             unassigned      YES unset  up                    up      
 Loopback110            unassigned      YES unset  up                    up      
 Loopback200            unassigned      YES unset  up                    up      
 Loopback300            unassigned      YES unset  up                    up      
+Loopback1000           unassigned      YES unset  up                    up      
 
-System image file is "flash:/c2960c405-universalk9-mz.122-55.EX3/c2960c405-universalk9-mz.122-55.EX3.bin"
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.1, timeout is 2 seconds:
+Packet sent with a source address of 192.168.1.3 
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/7/9 ms
+
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+Internet  192.168.1.69           29   000c.2988.e3d8  ARPA   Vlan1
+Internet  192.168.1.1             0   b06e.bfe3.e058  ARPA   Vlan1
+Internet  192.168.1.3             -   a418.7570.fdc0  ARPA   Vlan1
+
+Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater, P - Phone, 
+                  D - Remote, C - CVTA, M - Two-port Mac Relay 
 
 Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
 
+Building configuration...
 
-
+Current configuration : 3623 bytes
+!
+! Last configuration change at 10:54:35 Brisban Thu Nov 12 2020 by admin
+! NVRAM config last updated at 10:54:35 Brisban Thu Nov 12 2020 by admin
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
 hostname Doz
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$G8Vt$RCT1o3veKtubTjaeUQ1cW1
+enable password doz
+!
+username doz privilege 15 password 0 doz
+username admin password 0 Doz123
+!
+!
+no aaa new-model
+clock timezone Brisbane 10
+system mtu routing 1500
+!
+!
+ip domain-name dozacorp
+!
+!
+crypto pki trustpoint TP-self-signed-1970339200
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1970339200
+ revocation-check none
+ rsakeypair TP-self-signed-1970339200
+!
+!
+crypto pki certificate chain TP-self-signed-1970339200
+ certificate self-signed 01
+  30820244 308201AD A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31393730 33333932 3030301E 170D3933 30333031 30303032 
+  31315A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 39373033 
+  33393230 3030819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100CA3E 430A1DA3 D3929904 9C8A0FB5 D32BFBDE 51F4C124 9E4A37EB 0A4FA144 
+  B0D8C6CA 36D7D2E9 50CBC3CF 663F5EFE 537974C7 29A27957 A69EFCC2 01214A25 
+  7A527B81 9849F4AC 02C60FE5 AD2A78D7 4DB1E3DF DC836405 7687B622 82051D28 
+  5B60ECB1 9DABD335 048EAF2F 93DBA1B0 D4120DB0 B43301D5 0F467CDF DD33FD10 
+  CACB0203 010001A3 6C306A30 0F060355 1D130101 FF040530 030101FF 30170603 
+  551D1104 10300E82 0C446F7A 2E646F7A 61636F72 70301F06 03551D23 04183016 
+  8014D4A3 DAE28777 79225F4C 15A3FC70 1EE873EF D7BA301D 0603551D 0E041604 
+  14D4A3DA E2877779 225F4C15 A3FC701E E873EFD7 BA300D06 092A8648 86F70D01 
+  01040500 03818100 1098B975 1AC62F29 ABD3BA8D E9ACBB44 068ABF10 31C174A6 
+  9E7DDB66 59FE802B 13D35C95 23055641 AD3F937D D0507464 829A9162 6194AB28 
+  05C0C3D3 F078A47A E73B42DC 77804BB8 E4277C2F 6324E2BF C6BEA979 942785A7 
+  8C18A561 3704E861 72187EA4 61F54C9A 70927067 1803D80E 1532C473 716BF9EF 
+  C236E4FA 33694181
+  quit
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+ip ssh version 2
+ip scp server enable
+!
+policy-map slowdoz
+ class class-default
+  police 25000000 8000 exceed-action drop
+!
+!
+!
+interface Loopback10
+ description TEST
+ no ip address
+!
+interface Loopback11
+ description test
+ no ip address
+!
+interface Loopback110
+ no ip address
+!
+interface Loopback200
+ no ip address
+!
+interface Loopback300
+ no ip address
+!
+interface Loopback1000
+ description testing auto
+ no ip address
+!
+interface FastEthernet0/1
+ spanning-tree portfast
+ service-policy input slowdoz
+!
+interface FastEthernet0/2
+ spanning-tree portfast
+!
+interface FastEthernet0/3
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+ spanning-tree portfast
+!
+interface FastEthernet0/5
+ spanning-tree portfast
+!
+interface FastEthernet0/6
+ spanning-tree portfast
+!
+interface FastEthernet0/7
+ spanning-tree portfast
+!
+interface FastEthernet0/8
+ spanning-tree portfast
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ ip address 192.168.1.3 255.255.255.0
+!
+ip http server
+ip http secure-server
+!
+ip access-list standard std_acl
+ deny   192.168.1.3
+ deny   192.168.1.0 0.0.0.255
+ip sla enable reaction-alerts
+access-list 10 permit any
+!
+line con 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+end
 
+
+Interface              IP-Address      OK? Method Status                Protocol
 Vlan1                  192.168.1.3     YES NVRAM  up                    up      
 FastEthernet0/1        unassigned      YES unset  up                    up      
 FastEthernet0/2        unassigned      YES unset  up                    up      
 FastEthernet0/3        unassigned      YES unset  up                    up      
+FastEthernet0/4        unassigned      YES unset  down                  down    
+FastEthernet0/5        unassigned      YES unset  down                  down    
+FastEthernet0/6        unassigned      YES unset  down                  down    
+FastEthernet0/7        unassigned      YES unset  down                  down    
+FastEthernet0/8        unassigned      YES unset  down                  down    
+GigabitEthernet0/1     unassigned      YES unset  down                  down    
+GigabitEthernet0/2     unassigned      YES unset  down                  down    
 Loopback10             unassigned      YES unset  up                    up      
 Loopback11             unassigned      YES unset  up                    up      
 Loopback110            unassigned      YES unset  up                    up      
 Loopback200            unassigned      YES unset  up                    up      
 Loopback300            unassigned      YES unset  up                    up      
-
-
-System image file is "flash:/c2960c405-universalk9-mz.122-55.EX3/c2960c405-universalk9-mz.122-55.EX3.bin"
-
-Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
-
-
+Loopback1000           unassigned      YES unset  up                    up      
 

@@ -22,6 +22,7 @@ pip install re
 
 ```python
 USER CONFIGURATIONS:
+Under the folder input:
 Edit the IPs.txt file to have a host on each line with just their IP Address
 Edit the commands.txt file with your CLI command on each line, this will be shared amonst all hosts.
 
@@ -45,6 +46,8 @@ Enter After.txt
 The script will run through the hosts and the shared commands list.
 
 If there is an error connecting to an individual host, it will print and error and continue on.
+
+All outputs are stored in the output folder.
 
 Upon completion of the Before script option, it will write Completed.
 

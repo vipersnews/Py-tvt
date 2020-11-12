@@ -1,0 +1,4 @@
+ping 192.168.1.1 source vlan 1
+sh ip arp
+show cdp neigh
+show ip int brief

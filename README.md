@@ -12,10 +12,7 @@ difflib
 
 Use the package manager pip to install 
 ```bash
-pip install getpass
 pip install netmiko
-pip install difflib
-pip install re
 ```
 
 ## Usage
